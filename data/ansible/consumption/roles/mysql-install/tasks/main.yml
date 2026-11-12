@@ -1,0 +1,51 @@
+---
+#    - name: Enshure MYSQL running /usr/local/etc/rc.d
+#      service: name=mysqld state=started enabled=true
+#    - name: copy my.cnf
+#      template: src=my.cnf dest=/etc  owner=root mode=0600
+#    - name: log file
+#      file: dest=/var/log/mysql.log state=touch mode=0600 owner=mysql group=mysql
+#    - name: exists mysql log
+#      replace: dest=/etc/newsyslog.conf regexp='/var/log/mysql/log' owner=mysql group=mysql mode=600
+
+
+
+#      debug: msg="inventory_hostname={{ inventory_hostname }}, hostvars[inventory_hostname]['inventory_hostname']={{ hostvars[inventory_hostname]['inventory_hostname'] }}, ansible_hostname={{ ansible_hostname }}, new_hostname={{ new_hostname }}"
+#     when: new_hostname is defined 
+#    - name: "set hostname fact from inventory_hostname"
+#      set_fact: hostname_to_use={{ inventory_hostname }}
+
+#    - name: "set hostname fact from user hostname if defined"
+#      set_fact: hostname_to_use={{ new_hostname }}
+#      when: new_hostname is defined
+#    - name: Build hosts file (backups will be made)
+#      lineinfile: dest=/etc/hosts regexp='{{ hostvars[item].ansible_hostname }}$' line='{{ hostvars[item].ansible_default_ipv4.address }} {{ item }} {{ hostvars[item].ansible_hostname }}' state=present backup=yes
+#      when: hostvars[item].ansible_default_ipv4.address is defined
+#      with_items: groups['all']
+
+#    - name: "show hostname fact"
+#      debug: msg="hostname_to_use={{ ansible_hostname }}"
+#      debug: msg="host_name_to_use={{ inventory_hostname }}"
+#      hostname: name="{{ hostname }}"
+#    - name
+
+
+
+
+
+#    - name: update mysql root
+#      mysql_user: name=root host={{ item }} password={{ mysql_root_password }} login_user=root login_password={{ mysql_root_db_pass }} priv="*.*:ALL,GRANT"
+#      with_items:
+#       - localhost
+
+    - name: User connect
+      mysql_user: host=localhost name=root login_user={{ mysql_root_login }} login_password={{ mysql_root_password }}
+
+    - name: remove mysql anonymous mysql user
+      mysql_user: name='' login_user={{ mysql_root_login }} login_password={{ mysql_root_password }} state=absent
+
+    - name: remove test database
+      mysql_db: name='test' login_user={{ mysql_root_login }} login_password={{ mysql_root_password }} state=absent
+
+
+

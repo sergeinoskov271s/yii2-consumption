@@ -1,0 +1,8 @@
+---
+#     - name: create directory
+#       file: path=/usr/local/www/personal state=directory owner=www group=www mode=0644
+#     - name: install hello World php script
+#       copy: src=info.php dest=/usr/local/www/personal owner=www group=www mode=0644
+     - name: install tar file
+       copy: src=personal.tar.gz dest=/tmp owner=www group=www mode=0644
+

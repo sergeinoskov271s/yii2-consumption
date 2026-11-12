@@ -1,0 +1,36 @@
+
+---
+- hosts: 127.0.0.1
+
+  roles:
+#  - role: mysql
+  vars:
+      db_name: "consumption"
+      table_name: "budget"
+      dump_path: "/tmp/{{ db_name }}_{{ table_name }}_{{ ansible_date_time.date }}.sql"
+      currenttime: "{{ ansible_date_time.date }}"
+      mysql_user: "root"
+      mysql_password: "665010#"
+  remote_user: root
+#ansible-playbook -i inventory.ini site.yml
+
+  tasks:
+    - name: Delete a file if it exists {{ dump_path }}
+      ansible.builtin.file:
+        path: "{{ dump_path }}"
+        state: absent      
+      
+    - name: Dump database table budget
+      ansible.builtin.shell:    
+        cmd: "mysqldump --set-gtid-purged=OFF -u {{ mysql_user }} -p'{{ mysql_password }}' {{ db_name }} {{ table_name }} > {{ dump_path }}"
+      no_log: true
+      args:
+        creates: "{{ dump_path }}" # Idempotency: only run if the file doesn't exist
+
+      
+      
+      
+      
+      
+      
+      

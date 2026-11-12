@@ -1,0 +1,27 @@
+##
+# Example Ansible playbook that uses the MySQL module.
+#
+
+---
+- hosts: dbservers
+  roles:
+  - role: mysql
+
+  remote_user: root
+  vars:
+    database_encoding: "utf8mb4"
+    database_collation: "utf8mb4_unicode_ci" 
+    database_name: "consumption"
+
+  tasks:
+  - name: Create user_db database consumption
+    ansible.mysql.mysql_user:
+      login_unix_socket: /tmp/mysql.sock
+      login_user: "{{ mysql_root_login }}"
+      login_password: "{{ mysql_root_password }}"
+      name: user_db
+      password: '123456s'
+      priv: '*.*:ALL'
+      state: present
+
+

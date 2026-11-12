@@ -1,0 +1,21 @@
+---
+ - hosts: local
+   vars:
+    - docroot: /var/www/personal.test
+   tasks:
+    - name: Add nginx Repository
+      apt_repository: repo='ppa:nginx/stable' state=present
+      register: ppastable
+    - name: Install Nginx
+      apt: pkg=nginx state=installed update_cache=true
+    - name: Create Web root
+      when: nginxinstalled|success
+      file: dest={{ '{{' }} docroot {{ '}}' }} mode=775 state=directory owner=www froup=www
+      notify:
+       - Reload Nginx
+   handlers:
+    - name: Start Nginx
+      service: name=nginx state=started   
+    
+    - name: reload Nginx
+      service: name=nginx state=reload

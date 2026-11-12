@@ -1,0 +1,34 @@
+##
+# Example Ansible playbook that uses the MySQL module.
+#
+
+---
+- hosts: dbservers
+  roles:
+  - role: mysql
+
+  remote_user: root
+
+  tasks:
+#    - name: Enshure MYSQL running /usr/local/etc/rc.d
+#      service: name=mysqld state=started enabled=true
+# - mysql_db: name= state=import target=/tmp/dump.sql.bz2
+#    - name: User connect
+#      mysql_user: host=localhost name=root login_user=root login_password=665010
+
+#    - name: Create database
+#      mysql_db: login_user={{ login_user }} login_password={{ login_password }} login_host={{ login_host }} login_port={{ login_port }} collation=utf8_general_ci name=personal_utf8 state=present
+
+#    - name: Copy dump
+#      copy: src=dump/personal_utf8.sql dest=/tmp
+
+    - name: Import database
+      mysql_db: name=personal_utf8 login_user={{ login_user }} login_password={{ login_password }} login_host={{ login_host }} login_port={{ login_port }} state=import target=/tmp/personal_utf8.sql       
+      
+      
+      
+      
+      
+      
+      
+      

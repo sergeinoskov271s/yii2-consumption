@@ -1,0 +1,56 @@
+##
+# Example Ansible playbook that uses the MySQL module.
+#
+
+---
+- hosts: dbservers
+  roles:
+  - role: mysql
+
+  remote_user: root
+  vars:
+    database_encoding: "utf8mb4"
+    database_collation: "utf8mb4_unicode_ci" 
+    database_name: "consumption"
+
+  tasks:
+  - name: Create database consumption
+    ansible.mysql.mysql_db:
+      name: consumption
+      state: present
+      check_implicit_admin: true
+      login_unix_socket: /tmp/mysql.sock
+      login_user: "{{ mysql_root_login }}"
+      login_password: "{{ mysql_root_password }}"
+      encoding: "{{ database_encoding }}"
+      collation: "{{ database_collation }}"
+  - name: Drop table
+    ansible.mysql.mysql_query:
+      login_unix_socket: /tmp/mysql.sock
+      login_user: root
+      login_password: 665010#
+      login_db: "{{ database_name }}"
+#      encoding: "{{ database_encoding }}"
+#      collation: "{{ database_collation }}"
+      query: "DROP TABLE IF EXISTS `outlay`;"
+  - name: Create table
+    ansible.mysql.mysql_query:
+      login_unix_socket: /tmp/mysql.sock
+      login_user: "{{ mysql_root_login }}"
+      login_password: "{{ mysql_root_password }}"
+      login_db: "{{ database_name }}"
+      query: "CREATE TABLE `outlay` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,dt1 DATE,	
+  `towhom` varchar(200) collate utf8_unicode_ci NOT NULL DEFAULT '',`forwhat` varchar(200) collate utf8_unicode_ci NOT NULL DEFAULT '',
+  `price` decimal(10,2) unsigned DEFAULT '0.00',
+  `cat` varchar(200) collate utf8_unicode_ci NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;" 
+#      query: "GRANT select, update, insert, delete ON datalog TO 'user_db'@'localhost'; "
+#  - name: Insert data
+#    community.mysql.mysql_query:
+#      login_unix_socket: /tmp/mysql.sock
+#      login_user: root
+#      login_password: 665010#
+#      login_db: consumption
+#      query: "INSERT INTO outlay (dt1,to_whom, for_what, price,cat) VALUES ('2025-10-02','ZZZZ','Mega test',17.8,'j'),('2025-10-03','DDDD','Super',23.3,'t');"

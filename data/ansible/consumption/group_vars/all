@@ -1,0 +1,8 @@
+# The global variable file mysql installation
+mysql_login_port: 3306
+mysql_login_host: localhost
+login_user: root
+mysql_service: mysqld
+mysql_root_login: root
+mysql_root_password: 665010#
+mysql_variables: login_host=localhost login_port=3306

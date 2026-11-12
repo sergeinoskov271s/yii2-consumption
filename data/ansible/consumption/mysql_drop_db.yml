@@ -1,0 +1,19 @@
+##OB
+# Example Ansible playbook that uses the MySQL module.
+#
+
+---
+- hosts: 192.168.1.1
+  remote_user: root
+  roles:
+  - role: mysql
+
+  tasks:
+  - name: Drop DATABASE
+    community.mysql.mysql_db:
+      config_file: /usr/local/etc/mysql/my.cnf
+      login_unix_socket: /tmp/mysql.sock
+      login_user: "{{ mysql_root_login }}"
+      login_password: "{{ mysql_root_password }}"
+      name: consumption
+      state: absent

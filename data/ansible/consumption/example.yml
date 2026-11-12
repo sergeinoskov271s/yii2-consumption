@@ -1,0 +1,54 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  vars_files:
+  - vars/ec2-vars
+
+  tasks:
+
+    - name: Launch some instances
+      ec2:
+        access_key: "{{contact.ec2_access_key}}"
+        secret_key: "{{contact.ec2_secret_key}}"
+        keypair: "{{contact.ec2_keypair}}"
+        group: "{{contact.ec2_security_group}}"
+        type: "{{contact.ec2_instance_type}}"
+        image: "{{contact.ec2_image}}"
+        region: "{{contact.ec2_region}}"
+        instance_tags: "{'type':'{{contact.ec2_instance_type}}', 'group':'{{contact.ec2_security_group}}', 'Name':'demo_''{{contact.demo_tag_name}}'}"
+        count: "{{contact.ec2_instance_count}}"
+        wait: true
+        user_data: |
+                   #!/bin/bash
+                   TOWER=tower-test.local
+                   JOB=457
+                   KEY=7acb361f01ca00414e8623433d49150b
+                   
+                   retry_attempts=10
+                   attempt=0
+                   while [[ $attempt -lt $retry_attempts ]]
+                   do
+                       status_code=`curl -s -i --data "host_config_key=${KEY}" http://${TOWER}/api/v1/job_templates/${JOB}/callback/ | head -n 1 | awk '{print $2}'`
+                       if [[ $status_code == 202 ]]
+                           then
+                           exit 0
+                       fi
+                       attempt=$(( attempt + 1 ))
+                       echo "${status_code} received... retrying in 1 minute. (Attempt ${attempt})"
+                       sleep 60
+                   done
+                   exit 1
+      register: ec2
+
+    - name: Wait for SSH to come up
+      become: false
+      connection: local
+      wait_for:
+        host: "{{ item.public_dns_name }}"
+        port: 22
+        delay: 60
+        timeout: 320
+        state: started
+      with_items:
+        - "{{ ec2.instances }}"

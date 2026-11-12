@@ -21,11 +21,15 @@ tests/_support/_generated
 /.vagrant
 
 # dependencies
-/node_modules
+/node_modules/
 /bower_components
+
+
 
 *.tar
 /uploads
 logs/
 /vendor/
 dist/*.js
+groups_vars/
+logs/

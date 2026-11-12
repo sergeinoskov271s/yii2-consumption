@@ -1,0 +1,12 @@
+---
+- hosts: webservers
+  vars:
+  - personal_directory: /usr/local/www/personal
+  - kohana_directory: /usr/local/www/kohana
+  - person: 'www'
+  tasks:
+#  - name: Create Server env
+#    lineinfile: dest={{ kohana_directory }}/.htaccess insertafter=EOF line='SetEnv KOHANA_ENV "production"'
+
+  - name: Edit Server env
+    replace: dest={{ kohana_directory }}/.htaccess regexp='(^SetEnv KOHANA_ENV)\s"production"' replace='\1 "deployment"'

@@ -1,0 +1,31 @@
+##
+# Example Ansible playbook that uses the MySQL module.
+#
+
+---
+- hosts: dbservers
+  roles:
+  - role: mysql
+
+  remote_user: root
+  vars:
+    database_encoding: "utf8mb4"
+    database_collation: "utf8mb4_unicode_ci" 
+    database_name: "consumption"
+
+  tasks:
+  - name: Create procedure consumption
+    community.mysql.mysql_db:
+      name: consumption
+      state: present
+      check_implicit_admin: true
+      login_unix_socket: /tmp/mysql.sock
+      login_user: "{{ mysql_root_login }}"
+      login_password: "{{ mysql_root_password }}"
+      encoding: "{{ database_encoding }}"
+      collation: "{{ database_collation }}"
+  - name: Copy procedure
+    copy: src=consumption_procedure.sql dest=/tmp
+
+  - name: Import cript
+    shell: cat /tmp/consumption_procedure.sql | mysql -u{{ mysql_root_login }} -p{{ mysql_root_password }} consumption

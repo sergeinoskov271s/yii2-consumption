@@ -1,0 +1,16 @@
+---
+- hosts: webservers
+  vars:
+  - personal_directory: /usr/local/www/personal
+  - person: 'www'
+  tasks:
+  - name: Create directory for Personal
+    file: dest={{personal_directory}} state=directory mode=0755 owner={{person}} group={{person}}
+#  - name: Grab a bunch of jQuery stuff
+#    get_url: url=http://code.jquery.com/{{item}}  dest={{jquery_directory}} mode=0444
+#    with_items:
+#    - jquery.min.js
+#    - mobile/latest/jquery.mobile.min.js
+#    - ui/jquery-ui-git.css 
+  
+  

@@ -1,0 +1,7 @@
+[webservers]
+192.168.1.1
+[main]
+sever.office.localnet ansible_ssh_user=serj ansible_ssh_port=222 ansible_ssh_host=192.168.1.12
+[dbservers]
+127.0.0.1 ansible_ssh_user=root ansible_ssh_port=22 ansible_ssh_host=127.0.0.1
+

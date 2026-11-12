@@ -1,0 +1,25 @@
+
+---
+- hosts: dbservers
+
+  roles:
+  - role: mysql
+  vars:
+      db_name: "consumption"
+      table_name: "outlay"
+      version: "2026-11-04"
+      my_variable: Hello, World!
+      dump_path: "/tmp/{{ db_name }}_{{ table_name }}_{{ version }}.sql"
+  remote_user: root
+
+  tasks:    
+    - name: Echo
+      shell: echo "The value of my_variable is {{ my_variable }}"    
+    - name: Restore the SQL DB on target host
+      mysql_db: name={{ db_name }} state=import target={{ dump_path }} login_user={{ mysql_root_login }}  login_password="{{ mysql_root_password }}"
+      
+      
+      
+      
+      
+      

@@ -1,0 +1,16 @@
+---
+- hosts: webservers
+  vars:
+  - jquery_directory: /usr/local/www/apache22/data/javascriptTest
+  - person: 'www'
+  tasks:
+  - name: Create directory for jQuery
+    file: dest={{jquery_directory}} state=directory mode=0755 owner={{person}} group={{person}}
+  - name: Grab a bunch of jQuery stuff
+    get_url: url=http://code.jquery.com/{{item}}  dest={{jquery_directory}} mode=0444
+    with_items:
+    - jquery.min.js
+    - mobile/latest/jquery.mobile.min.js
+    - ui/jquery-ui-git.css 
+  
+  

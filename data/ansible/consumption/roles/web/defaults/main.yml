@@ -1,0 +1,5 @@
+---
+temp_directory: /tmp
+www_directory: /usr/local/www/yii2-consumption
+person_user: 'www'
+
