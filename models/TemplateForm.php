@@ -1,0 +1,142 @@
+<?php
+declare(strict_types=1);
+
+namespace app\models;
+
+use yii\base\Model;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\helpers\Url;
+use yii\helpers\Html; 
+
+/**
+ * This is the model class for table 
+ *
+ * @property string $cat
+ * @property int $active
+ */
+class TemplateForm extends Model
+{
+    //public string $year = '';
+	//public string $dt1 = '';
+    public int $price =0 ;
+    public string $cat = '';
+    public string $forwhat = '';
+    public string $towhom = '';
+    public string $order = '';
+	public string $pole = '';
+	public string $like = '';
+	public string $monthly = 'yes';
+	public int $month = 0;
+	public int $id = 0;
+	//public string $date = '';
+   /*  public static function tableName()
+    {
+        return 'outlay';
+    } */
+    /*protected function beforeValidate() {
+        $this->content = trim($this->content);
+        return parent::beforeValidate();
+    }*/
+
+    /**
+     * Returns a list of behaviors that this component should behave as.
+     *
+     * Child classes may override this method to specify the behaviors they want to behave as.
+     *
+     * The return value of this method should be an array of behavior objects or configurations
+     * indexed by behavior names. A behavior configuration can be either a string specifying
+     * the behavior class or an array of the following structure:
+     *
+     * ```php
+     * 'behaviorName' => [
+     *     'class' => 'BehaviorClass',
+     *     'property1' => 'value1',
+     *     'property2' => 'value2',
+     * ]
+     * ```
+     *
+     * Note that a behavior class must extend from [[Behavior]]. Behaviors can be attached using a name or anonymously.
+     * When a name is used as the array key, using this name, the behavior can later be retrieved using [[getBehavior()]]
+     * or be detached using [[detachBehavior()]]. Anonymous behaviors can not be retrieved or detached.
+     *
+     * Behaviors declared in this method will be attached to the component automatically (on demand).
+     *
+     * @return array the behavior configurations.
+     */
+   /* public function behaviors()
+    {
+        return [
+             'timestamp' => [
+                 'class' => TimestampBehavior::class,
+                 'attributes' => [
+                     ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
+                     ActiveRecord::EVENT_BEFORE_UPDATE => 'created_at',
+                 ],
+//                 'value' => function() { return date('U'); // unix timestamp
+ //                },
+             ],
+        ];
+    }*/
+
+    public function init() {
+        parent::init();
+    }
+
+    /**
+     * This method is invoked before validation starts.
+     * The default implementation raises a `beforeValidate` event.
+     * You may override this method to do preliminary checks before validation.
+     * Make sure the parent implementation is invoked so that the event can be raised.
+     * @return bool whether the validation should be executed. Defaults to true.
+     * If false is returned, the validation will stop and the model is considered invalid.
+     */
+    public function beforeValidate()
+    {
+        if ($this->price == null) {
+            $this->price = 0;
+        }
+        return parent::beforeValidate();
+    }
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [       
+            [['order', 'id', 'forwhat','towhom','cat','price'],'trim'],
+            [['cat','price','monthly'], 'required'],
+			[[ 'price','id','month'], 'integer'],
+			['monthly', 'in', 'range' => ['yes', 'no', ], 'allowArray' => false],
+ //           [['date','dt1'], 'match', 'pattern' => '/^([12][09][0-9][0-9])(\-([01][0-9]))?(\-([0-3][0-9]))?$/'],
+ //           [['created_at', 'updated_at'], 'safe'],
+ //           [['tab_number'], 'string', 'max' => 7],
+            [['forwhat', 'towhom','cat'], 'string', 'max' => 256],
+			[['month'], 'integer', 'min' => 0, 'max' => 12, 'message' => 'Age must be a valid whole number.'],
+   //         [['cat'], 'string', 'max' => 32],
+        /*    ['username', 'match', 'pattern' => '/^[a-zA-Z0-9\-]{3,64}$/i']*/
+           /* [['org_unit'], 'default', 'value' => function ($model, $attribute) {
+                return date('Y-m-d', strtotime($attribute === 'to' ? '+3 days' : '+6 days'));
+            }],*/
+            //[['cat',], 'unique','when' => function ($model, $attribute) {
+            //    return $model->{$attribute} !== $model->getOldAttribute($attribute);
+			//		return true;
+            //}],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+			'id' => 'ID',
+			//'dt1'=>'Date',
+            'forwhat' => 'for what',
+            'towhom' => 'to whom', 
+            'cat' => 'Cat',
+            'oder'=>'order pole',
+			'price' =>'Price',
+			'monthly' => 'monthly',
+			'month' => 'month'
+        ];
+    }
+}

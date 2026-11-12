@@ -1,0 +1,1 @@
+var ROOT,path=[],pathAjax=(path=location.toString().split("/"))[3];alert("hello5");

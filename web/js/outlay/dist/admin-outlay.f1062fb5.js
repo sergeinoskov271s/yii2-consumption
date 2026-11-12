@@ -1,0 +1,1 @@
+var path=[],pathAjax=(path=location.toString().split("/"))[3];function inter_init(){var t=document.getElementById("searchform-order"),t=t[t.selectedIndex].value;alert(t)}window.onload=inter_init;

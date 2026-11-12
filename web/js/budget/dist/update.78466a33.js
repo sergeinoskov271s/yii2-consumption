@@ -1,0 +1,1 @@
+var path=[],pathAjax=(path=location.toString().split("/"))[3];function cloneObject(t){for(var n in t)"source"==typeof t[n]?this[n]=new cloneObject[n]:this[n]=t[n]}function inter_init(){alert(pathAjax)}window.onload=inter_init;

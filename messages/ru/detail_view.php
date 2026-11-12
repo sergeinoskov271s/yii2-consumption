@@ -1,0 +1,36 @@
+<?php
+
+
+return [
+    'id' => 'ID',
+    'Tab Number'=>'Таб. номер',
+    'Username' => 'Логин',
+    'Name'=>'Имя',
+    'Position'=>'Должность',
+    'enterprise_id' => 'Company ID',
+    'department_id' => 'Department ID',
+    'office_id' => 'Office ID',
+    'section_id' => 'Section ID',
+    'party_id' => 'Party ID',
+    'First Name'=>'Фамилия',
+    'last_name' => 'Last Name',
+    'Org Unit'=>'ОргЕдинц',
+    'Phone' => 'Телефон',
+    'First Phone' => 'Первый номер телефона',
+    'Room' => 'Комната',
+    'Address' => 'Адрес',
+    'org_unit' => 'Org Unit',
+    'Enterprise'=>'Предприятие',
+    'Department'=>'Департамент',
+    'Office'=>'Подразделение',
+    'Section'=>'Секция',
+    'Party'=>'Группа',
+    'email' => 'Email',
+    'created_at' => 'Created',
+    'updated_at' => 'Updated',
+    'Cat' => 'Категория',
+    'active' => 'Active',
+    'computer_name_id'=>'Host name',
+    'Computer'=>'Компьютер',
+
+];

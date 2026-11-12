@@ -1,0 +1,1 @@
+let Handlebars=require("handlebars");var ROOT,path=[],pathAjax=(path=location.toString().split("/"))[3],template=Handlebars.compile("Handlebars <b>{{doesWhat}}</b>");console.log(template({doesWhat:"rocks!"}));

@@ -1,0 +1,1 @@
+var ROOT,path=[],pathAjax=(path=location.toString().split("/"))[3],template=Handlebars.compile("Handlebars <b>{{doesWhat}}</b>"),source=(console.log(template({doesWhat:"rocks!"})),$("#name-table").html()),html=(template=Handlebars.compile(source))();$("#result").html(html);
